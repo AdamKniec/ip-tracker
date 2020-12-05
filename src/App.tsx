@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Header from "./components/Header";
 import "../src/styles.scss";
 import "leaflet/dist/leaflet.css";
 import "leaflet/dist/images/marker-shadow.png";
 import "leaflet/dist/images/marker-icon.png";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
+import {
+  getTheDataBasedOnTheIpAddress,
+  getUsersGeolocationData,
+} from "./domain";
 
 const myIcon = L.icon({
   iconUrl:
@@ -15,16 +19,42 @@ const myIcon = L.icon({
   popupAnchor: [0, -41],
 });
 
+type viewProps = {
+  center: Array<number>;
+};
+
+//wywalic to do osobnego komponentu
+const ChangeView = ({ center }: viewProps) => {
+  const map = useMap();
+  map.flyTo([center[0], center[1]], 13);
+  return null;
+};
+
 const App: React.FC = () => {
+  const [defaultCoords, setdefaultCoords] = useState<Array<number>>([
+    51.505,
+    -0.09,
+  ]);
+
+  useEffect(() => {
+    getUsersGeolocationData().then((res) => setdefaultCoords(res));
+  }, []);
+
   return (
     <div className="App">
       <Header />
-      <MapContainer center={[51.505, -0.09]} zoom={13} scrollWheelZoom={true}>
+      <MapContainer
+        center={[defaultCoords[0], defaultCoords[1]]}
+        zoom={13}
+        scrollWheelZoom={true}
+      >
+        <ChangeView center={[defaultCoords[0], defaultCoords[1]]} />
+
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[51.505, -0.09]} icon={myIcon}>
+        <Marker position={[defaultCoords[0], defaultCoords[1]]} icon={myIcon}>
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>
