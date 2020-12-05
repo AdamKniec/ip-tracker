@@ -1,17 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import headerBg from "../assets/pattern-bg.png";
 import GlobalFonts from "../assets/fonts/fonts";
+import { getTheDataBasedOnTheIpAddress } from "../domain";
 
 const Header: React.FC = () => {
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleFormSubmit = (
+    e: React.FormEvent<HTMLFormElement>,
+    inputvalue: string
+  ) => {
+    e.preventDefault();
+    getTheDataBasedOnTheIpAddress(inputValue).then((data) => console.log(data));
+  };
+
   return (
     <HeaderSection className="header">
       <GlobalFonts />
       <InputWrapper>
         <MainHeading>IP Address Tracker</MainHeading>
-        <label htmlFor="ip-input">
-          <input type="text" id="ip-input" />
-        </label>
+        <form onSubmit={(e) => handleFormSubmit(e, inputValue)}>
+          <label htmlFor="ip-input">
+            <input
+              type="text"
+              id="ip-input"
+              onChange={(e) => handleInputChange(e)}
+            />
+            <button type="submit"></button>
+          </label>
+        </form>
       </InputWrapper>
     </HeaderSection>
   );
