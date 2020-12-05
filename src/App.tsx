@@ -23,7 +23,6 @@ type viewProps = {
   center: Array<number>;
 };
 
-//wywalic to do osobnego komponentu
 const ChangeView = ({ center }: viewProps) => {
   const map = useMap();
   map.flyTo([center[0], center[1]], 13);
