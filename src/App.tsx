@@ -6,10 +6,7 @@ import "leaflet/dist/images/marker-shadow.png";
 import "leaflet/dist/images/marker-icon.png";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
-import {
-  getTheDataBasedOnTheIpAddress,
-  getUsersGeolocationData,
-} from "./domain";
+import { getUsersGeolocationData } from "./domain";
 
 const myIcon = L.icon({
   iconUrl:
