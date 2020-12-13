@@ -5,9 +5,9 @@ import GlobalFonts from "../assets/fonts/fonts";
 import { getTheDataBasedOnTheIpAddress } from "../domain";
 import AddressDetails from "./AddressDetails";
 
-type headerProps = {
+interface headerProps {
   setNewCoords: Function;
-};
+}
 
 const Header: React.FC<headerProps> = ({ setNewCoords }) => {
   const [inputValue, setInputValue] = useState("");
