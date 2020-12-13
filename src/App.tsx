@@ -27,30 +27,31 @@ const ChangeView = ({ center }: viewProps) => {
 };
 
 const App: React.FC = () => {
-  const [defaultCoords, setdefaultCoords] = useState<Array<number>>([
-    51.505,
-    -0.09,
-  ]);
+  const [coords, setcoords] = useState<Array<number>>([51.505, -0.09]);
 
   useEffect(() => {
-    getUsersGeolocationData().then((res) => setdefaultCoords(res));
+    getUsersGeolocationData().then((res) => setcoords(res));
   }, []);
+
+  const setNewCoords = (newCoords: Array<number>) => {
+    setcoords(newCoords);
+  };
 
   return (
     <div className="App">
-      <Header />
+      <Header setNewCoords={setNewCoords} />
       <MapContainer
-        center={[defaultCoords[0], defaultCoords[1]]}
+        center={[coords[0], coords[1]]}
         zoom={13}
         scrollWheelZoom={true}
       >
-        <ChangeView center={[defaultCoords[0], defaultCoords[1]]} />
+        <ChangeView center={[coords[0], coords[1]]} />
 
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <Marker position={[defaultCoords[0], defaultCoords[1]]} icon={myIcon}>
+        <Marker position={[coords[0], coords[1]]} icon={myIcon}>
           <Popup>
             A pretty CSS3 popup. <br /> Easily customizable.
           </Popup>

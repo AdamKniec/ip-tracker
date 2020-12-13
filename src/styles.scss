@@ -4,5 +4,6 @@ body {
   font-family: "Rubik-Bold";
   .leaflet-container {
     height: 800px;
+    z-index: 99;
   }
 }
