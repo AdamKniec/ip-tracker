@@ -4,7 +4,7 @@ import styled from "styled-components";
 interface DetailsProps {
   detailsData: {
     ipAddress: string;
-    location: string;
+    region: string;
     timezone: string;
     isp: string;
   };
@@ -13,11 +13,11 @@ interface DetailsProps {
 const AddressDetails: React.FC<DetailsProps> = ({
   detailsData,
 }: DetailsProps) => {
-  const { ipAddress, location, timezone, isp } = detailsData;
+  const { ipAddress, region, timezone, isp } = detailsData;
   return (
     <AddressDetailsContainer>
       <div>{ipAddress}</div>
-      <div>{location}</div>
+      <div>{region}</div>
       <div>{timezone}</div>
       <div>{isp}</div>
     </AddressDetailsContainer>

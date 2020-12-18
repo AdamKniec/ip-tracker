@@ -6,7 +6,7 @@ import "leaflet/dist/images/marker-shadow.png";
 import "leaflet/dist/images/marker-icon.png";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import L from "leaflet";
-import { getUsersGeolocationData } from "./domain";
+import { getUsersStartingData, getTheDataBasedOnTheIpAddress } from "./domain";
 
 const myIcon = L.icon({
   iconUrl:
@@ -28,9 +28,25 @@ const ChangeView = ({ center }: viewProps) => {
 
 const App: React.FC = () => {
   const [coords, setcoords] = useState<Array<number>>([51.505, -0.09]);
+  const [initialLocationData, setInitialLocationData] = useState<{
+    ipAddress: string;
+    region: string;
+    timezone: string;
+    isp: string;
+  }>({ ipAddress: "", region: "", timezone: "", isp: "" });
 
   useEffect(() => {
-    getUsersGeolocationData().then((res) => setcoords(res));
+    getUsersStartingData().then((data) =>
+      getTheDataBasedOnTheIpAddress(data.ip).then((data) => {
+        setcoords([data.location.lat, data.location.lng]);
+        setInitialLocationData({
+          ipAddress: data.ip,
+          region: data.location.region,
+          timezone: data.location.timezone,
+          isp: data.isp,
+        });
+      })
+    );
   }, []);
 
   const setNewCoords = (newCoords: Array<number>) => {
@@ -39,7 +55,10 @@ const App: React.FC = () => {
 
   return (
     <div className="App">
-      <Header setNewCoords={setNewCoords} />
+      <Header
+        setNewCoords={setNewCoords}
+        initialDetailsData={initialLocationData}
+      />
       <MapContainer
         center={[coords[0], coords[1]]}
         zoom={13}
