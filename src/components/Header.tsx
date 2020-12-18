@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import headerBg from "../assets/pattern-bg.png";
 import GlobalFonts from "../assets/fonts/fonts";
@@ -7,24 +7,37 @@ import AddressDetails from "./AddressDetails";
 
 interface headerProps {
   setNewCoords: Function;
+  initialDetailsData: {
+    ipAddress: string;
+    region: string;
+    timezone: string;
+    isp: string;
+  };
 }
 
-const Header: React.FC<headerProps> = ({ setNewCoords }) => {
+const Header: React.FC<headerProps> = ({
+  setNewCoords,
+  initialDetailsData,
+}) => {
   const [inputValue, setInputValue] = useState("");
   const [detailsData, setDetailsData] = useState<{
     ipAddress: string;
-    location: string;
+    region: string;
     timezone: string;
     isp: string;
-  }>({ ipAddress: "", location: "", timezone: "", isp: "" });
+  }>({ ipAddress: "", region: "", timezone: "", isp: "" });
+
+  useEffect(() => {
+    setDetailsData(initialDetailsData);
+  }, [initialDetailsData]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
   const handleFormSubmit = (
-    e: React.FormEvent<HTMLFormElement>,
-    inputvalue: string
+    e: React.FormEvent<HTMLFormElement>
+    // inputvalue: string
   ) => {
     e.preventDefault();
     getTheDataBasedOnTheIpAddress(inputValue)
@@ -32,7 +45,7 @@ const Header: React.FC<headerProps> = ({ setNewCoords }) => {
         setNewCoords([data.location.lat, data.location.lng]);
         setDetailsData({
           ipAddress: data.ip,
-          location: data.location.region,
+          region: data.location.region,
           timezone: data.location.timezone,
           isp: data.isp,
         });
@@ -45,7 +58,7 @@ const Header: React.FC<headerProps> = ({ setNewCoords }) => {
       <GlobalFonts />
       <InputWrapper>
         <MainHeading>IP Address Tracker</MainHeading>
-        <Form onSubmit={(e) => handleFormSubmit(e, inputValue)}>
+        <Form onSubmit={(e) => handleFormSubmit(e)}>
           <Label htmlFor="ip-input">
             <Input
               type="text"

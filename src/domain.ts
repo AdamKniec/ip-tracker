@@ -4,11 +4,6 @@ export const getTheDataBasedOnTheIpAddress = (inputValue: string) => {
     .then(data => data)
 }
 
-export const getUsersGeolocationData = (): Promise<[number,number]> => {
-    return new Promise((resolve, reject) => {
-        navigator.geolocation.getCurrentPosition(position =>{
-            resolve([position.coords.latitude, position.coords.longitude])
-        })
-    })
+export const getUsersStartingData = () => {
+    return fetch('https://api.ipify.org/?format=json').then(res => res.json()).then(data=>data);
 }
-
