@@ -35,10 +35,7 @@ const Header: React.FC<headerProps> = ({
     setInputValue(e.target.value);
   };
 
-  const handleFormSubmit = (
-    e: React.FormEvent<HTMLFormElement>
-    // inputvalue: string
-  ) => {
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     getTheDataBasedOnTheIpAddress(inputValue)
       .then((data) => {
