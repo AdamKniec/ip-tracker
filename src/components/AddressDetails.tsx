@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { respondTo } from "../respondTo";
 
 interface DetailsProps {
   detailsData: {
@@ -51,6 +52,10 @@ const AddressDetailsContainer = styled.div`
   z-index: 999;
   bottom: 0;
   justify-content: space-around;
+  ${respondTo.sm`
+    flex-direction: column;
+    height: auto;
+  `}
   // STYLED BELOW ?????????
   div {
     display: flex;
@@ -63,7 +68,13 @@ const AddressDetailsContainer = styled.div`
     font-weight: bold;
     &:nth-child(1) {
       border-left: none;
+      margin: 10px;
     }
+    ${respondTo.sm`
+      border-left: none;
+      width: 250px;
+      align-items: center;
+  `}
     span {
       font-size: 0.7em;
       padding-bottom: 10px;

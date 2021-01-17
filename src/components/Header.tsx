@@ -5,8 +5,10 @@ import GlobalFonts from "../assets/fonts/fonts";
 import {
   getTheDataBasedOnTheIpAddress,
   getTheDataBasedOnTheDomain,
+  isIP,
 } from "../domain";
 import AddressDetails from "./AddressDetails";
+import WarningMessage from "../components/WarningMessage";
 
 interface headerProps {
   setNewCoords: Function;
@@ -29,21 +31,22 @@ const Header: React.FC<headerProps> = ({
     timezone: string;
     isp: string;
   }>({ ipAddress: "", region: "", timezone: "", isp: "" });
+  const [apiErrors, setApiErrors] = useState(false);
 
   useEffect(() => {
     setDetailsData(initialDetailsData);
   }, [initialDetailsData]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      setApiErrors(false);
+    }, 5000);
+  }, [apiErrors]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
-  // tego uzyjemy do sprawdzania czy user daje nam IP czy domene
-  const isIP = (address: string) => {
-    return /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(
-      address
-    );
-  };
   const setMapData = (
     lat: string,
     lng: string,
@@ -76,6 +79,9 @@ const Header: React.FC<headerProps> = ({
             data.location.timezone,
             data.isp
           );
+        if (data.messages) {
+          setApiErrors(true);
+        }
       });
     } else {
       getTheDataBasedOnTheDomain(trimmedValue).then((data) => {
@@ -90,6 +96,9 @@ const Header: React.FC<headerProps> = ({
             data.location.timezone,
             data.isp
           );
+        if (data.messages) {
+          setApiErrors(true);
+        }
       });
     }
   };
@@ -99,6 +108,7 @@ const Header: React.FC<headerProps> = ({
       <GlobalFonts />
       <InputWrapper>
         <MainHeading>IP Address Tracker</MainHeading>
+        <WarningMessage showWarning={apiErrors} />
         <Form onSubmit={(e) => handleFormSubmit(e)}>
           <Label htmlFor="ip-input">
             <Input

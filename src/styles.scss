@@ -3,8 +3,11 @@ body {
   margin: 0;
   font-family: sans-serif;
   // font-family: "Rubik-Bold";
-  .leaflet-container {
-    height: 800px;
-    z-index: 99;
+  .App {
+    overflow: hidden;
+    .leaflet-container {
+      height: 80vh;
+      z-index: 99;
+    }
   }
 }
