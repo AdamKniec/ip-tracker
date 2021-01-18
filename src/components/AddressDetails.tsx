@@ -41,7 +41,7 @@ export default AddressDetails;
 
 const AddressDetailsContainer = styled.div`
   position: absolute;
-  width: 75%;
+  width: 65%;
   background-color: #fff;
   border-radius: 10px;
   height: 160px;

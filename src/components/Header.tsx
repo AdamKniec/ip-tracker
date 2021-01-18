@@ -9,6 +9,7 @@ import {
 } from "../domain";
 import AddressDetails from "./AddressDetails";
 import WarningMessage from "../components/WarningMessage";
+import { respondTo } from "../respondTo";
 
 interface headerProps {
   setNewCoords: Function;
@@ -162,6 +163,9 @@ const Input = styled.input`
   box-sizing: border-box;
   padding-left: 20px;
   font-size: 1.2rem;
+  ${respondTo.sm`
+  font-size: 10px;
+`}
 `;
 
 const Button = styled.button`
@@ -186,4 +190,8 @@ const Form = styled.form`
 
 const Label = styled.label`
   width: 500px;
+  ${respondTo.sm`
+  min-width: 200px;
+  width: auto
+`}
 `;
