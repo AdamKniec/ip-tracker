@@ -20,3 +20,7 @@ export const isIP = (address: string) => {
       address
     );
   };
+
+export const trimTheEmptySpaces = (inputValue: string) => { 
+    return inputValue.replace((/\s/g), "");
+};

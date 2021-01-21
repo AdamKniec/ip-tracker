@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import headerBg from "../assets/pattern-bg.png";
-import GlobalFonts from "../assets/fonts/fonts";
 import {
   getTheDataBasedOnTheIpAddress,
   getTheDataBasedOnTheDomain,
@@ -10,6 +9,7 @@ import {
 import AddressDetails from "./AddressDetails";
 import WarningMessage from "../components/WarningMessage";
 import { respondTo } from "../respondTo";
+import { trimTheEmptySpaces } from "../domain";
 
 interface headerProps {
   setNewCoords: Function;
@@ -32,7 +32,7 @@ const Header: React.FC<headerProps> = ({
     timezone: string;
     isp: string;
   }>({ ipAddress: "", region: "", timezone: "", isp: "" });
-  const [apiErrors, setApiErrors] = useState(false);
+  const [showErrorFlag, setShowErrorFlag] = useState(false);
 
   useEffect(() => {
     setDetailsData(initialDetailsData);
@@ -40,9 +40,9 @@ const Header: React.FC<headerProps> = ({
 
   useEffect(() => {
     setTimeout(() => {
-      setApiErrors(false);
+      setShowErrorFlag(false);
     }, 5000);
-  }, [apiErrors]);
+  }, [showErrorFlag]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
@@ -66,7 +66,7 @@ const Header: React.FC<headerProps> = ({
   };
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const trimmedValue = inputValue.replace(/\s/g, "");
+    const trimmedValue = trimTheEmptySpaces(inputValue);
     if (isIP(inputValue)) {
       getTheDataBasedOnTheIpAddress(trimmedValue).then((data) => {
         data.location &&
@@ -81,7 +81,7 @@ const Header: React.FC<headerProps> = ({
             data.isp
           );
         if (data.messages) {
-          setApiErrors(true);
+          setShowErrorFlag(true);
         }
       });
     } else {
@@ -98,7 +98,7 @@ const Header: React.FC<headerProps> = ({
             data.isp
           );
         if (data.messages) {
-          setApiErrors(true);
+          setShowErrorFlag(true);
         }
       });
     }
@@ -106,10 +106,9 @@ const Header: React.FC<headerProps> = ({
 
   return (
     <HeaderSection className="header">
-      <GlobalFonts />
       <InputWrapper>
         <MainHeading>IP Address Tracker</MainHeading>
-        <WarningMessage showWarning={apiErrors} />
+        <WarningMessage showWarning={showErrorFlag} />
         <Form onSubmit={(e) => handleFormSubmit(e)}>
           <Label htmlFor="ip-input">
             <Input
@@ -145,7 +144,6 @@ const HeaderSection = styled.header`
 const MainHeading = styled.h1`
   margin: 0;
   color: white;
-  // font-family: "Rubik-Bold";
   padding-bottom: 20px;
   margin-top: 50px;
 `;
@@ -165,6 +163,7 @@ const Input = styled.input`
   font-size: 1.2rem;
   ${respondTo.sm`
   font-size: 10px;
+  height: 40px;
 `}
 `;
 
@@ -180,6 +179,10 @@ const Button = styled.button`
     display; block;
     color: #fff;
   }
+  ${respondTo.sm`
+  width: 40px;
+  height: 40px;
+`}
 `;
 
 const Form = styled.form`
