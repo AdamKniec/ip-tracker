@@ -54,9 +54,7 @@ const App: React.FC = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <Marker position={[coords[0], coords[1]]} icon={MapMarker}>
-          <Popup>
-            A pretty CSS3 popup. <br /> Easily customizable.
-          </Popup>
+          <Popup>{`${coords[0]}, ${coords[1]}`}</Popup>
         </Marker>
       </MapContainer>
     </div>
