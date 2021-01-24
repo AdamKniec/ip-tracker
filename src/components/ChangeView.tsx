@@ -1,8 +1,8 @@
 import { useMap } from "react-leaflet";
 
-export interface viewProps {
+export type viewProps = {
   center: Array<number>;
-}
+};
 
 export const ChangeView = ({ center }: viewProps) => {
   const map = useMap();

@@ -10,7 +10,7 @@ import { MapMarker } from "./components/MapMarker";
 import { ChangeView } from "./components/ChangeView";
 
 const App: React.FC = () => {
-  const [coords, setcoords] = useState<Array<number>>([51.505, -0.09]);
+  const [coords, setCoords] = useState<Array<number>>([51.505, -0.09]);
   const [initialLocationData, setInitialLocationData] = useState<{
     ipAddress: string;
     region: string;
@@ -21,7 +21,7 @@ const App: React.FC = () => {
   useEffect(() => {
     getUsersStartingData().then((data) =>
       getTheDataBasedOnTheIpAddress(data.ip).then((data) => {
-        setcoords([data.location.lat, data.location.lng]);
+        setCoords([data.location.lat, data.location.lng]);
         setInitialLocationData({
           ipAddress: data.ip,
           region: data.location.region,
@@ -33,7 +33,7 @@ const App: React.FC = () => {
   }, []);
 
   const setNewCoords = (newCoords: Array<number>) => {
-    setcoords(newCoords);
+    setCoords(newCoords);
   };
 
   return (

@@ -2,14 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { respondTo } from "../respondTo";
 
-interface DetailsProps {
+type DetailsProps = {
   detailsData: {
     ipAddress: string;
     region: string;
     timezone: string;
     isp: string;
   };
-}
+};
 
 const AddressDetails: React.FC<DetailsProps> = ({
   detailsData,

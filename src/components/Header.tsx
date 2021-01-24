@@ -11,7 +11,7 @@ import WarningMessage from "../components/WarningMessage";
 import { respondTo } from "../respondTo";
 import { trimTheEmptySpaces } from "../domain";
 
-interface headerProps {
+type headerProps = {
   setNewCoords: Function;
   initialDetailsData: {
     ipAddress: string;
@@ -19,7 +19,7 @@ interface headerProps {
     timezone: string;
     isp: string;
   };
-}
+};
 
 const Header: React.FC<headerProps> = ({
   setNewCoords,
@@ -68,39 +68,40 @@ const Header: React.FC<headerProps> = ({
     e.preventDefault();
     const trimmedValue = trimTheEmptySpaces(inputValue);
     if (isIP(inputValue)) {
-      getTheDataBasedOnTheIpAddress(trimmedValue).then((data) => {
-        data.location &&
-          data.ip &&
-          data.isp &&
+      getTheDataBasedOnTheIpAddress(trimmedValue).then(
+        ({ location, ip, isp, messages }) => {
           setMapData(
-            data.location.lat,
-            data.location.lng,
-            data.ip,
-            data.location.region,
-            data.location.timezone,
-            data.isp
+            location.lat,
+            location.lng,
+            ip,
+            location.region,
+            location.timezone,
+            isp
           );
-        if (data.messages) {
-          setShowErrorFlag(true);
+          if (messages) {
+            setShowErrorFlag(true);
+          }
         }
-      });
+      );
     } else {
-      getTheDataBasedOnTheDomain(trimmedValue).then((data) => {
-        data.location &&
-          data.ip &&
-          data.isp &&
-          setMapData(
-            data.location.lat,
-            data.location.lng,
-            data.ip,
-            data.location.region,
-            data.location.timezone,
-            data.isp
-          );
-        if (data.messages) {
-          setShowErrorFlag(true);
+      getTheDataBasedOnTheDomain(trimmedValue).then(
+        ({ location, ip, isp, messages }) => {
+          location &&
+            ip &&
+            isp &&
+            setMapData(
+              location.lat,
+              location.lng,
+              ip,
+              location.region,
+              location.timezone,
+              isp
+            );
+          if (messages) {
+            setShowErrorFlag(true);
+          }
         }
-      });
+      );
     }
   };
 
