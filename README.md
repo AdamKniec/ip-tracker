@@ -1,6 +1,6 @@
 # IP-tracker App
 
-<img width="100%" src="https://i.ibb.co/YcW6P9W/desktop-preview.jpg" alt="Screenshot of the IP-Tracker applicaiton" />
+<img width="100%" src="https://i.ibb.co/Fmjh5wx/Zrzut-ekranu-2021-01-26-o-22-37-53.png" alt="Screenshot of the IP-Tracker applicaiton" />
 
 ## Basic Info
 Application idea comes from the Frontendmentor platform:
