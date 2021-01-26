@@ -48,60 +48,40 @@ const Header: React.FC<headerProps> = ({
     setInputValue(e.target.value);
   };
 
-  const setMapData = (
-    lat: string,
-    lng: string,
-    ip: string,
-    region: string,
-    timezone: string,
-    isp: string
-  ) => {
-    setNewCoords([lat, lng]);
-    setDetailsData({
-      ipAddress: ip,
-      region: region,
-      timezone: timezone,
-      isp: isp,
-    });
-  };
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const trimmedValue = trimTheEmptySpaces(inputValue);
     if (isIP(inputValue)) {
       getTheDataBasedOnTheIpAddress(trimmedValue).then(
-        ({ location, ip, isp, messages }) => {
-          setMapData(
-            location.lat,
-            location.lng,
-            ip,
-            location.region,
-            location.timezone,
-            isp
-          );
-          if (messages) {
-            setShowErrorFlag(true);
-          }
+        ({ location: { region, lat, lng }, ip: ipAddress, isp, messages }) => {
+          setDetailsData({
+            ...initialDetailsData,
+            ipAddress,
+            isp,
+            region,
+          });
+          setNewCoords([lat, lng]);
         }
       );
     } else {
-      getTheDataBasedOnTheDomain(trimmedValue).then(
-        ({ location, ip, isp, messages }) => {
-          location &&
-            ip &&
-            isp &&
-            setMapData(
-              location.lat,
-              location.lng,
-              ip,
-              location.region,
-              location.timezone,
-              isp
-            );
-          if (messages) {
-            setShowErrorFlag(true);
-          }
+      getTheDataBasedOnTheDomain(trimmedValue).then((data) => {
+        if (data.messages) {
+          setShowErrorFlag(true);
+        } else {
+          const {
+            ip: ipAddress,
+            location: { region, lat, lng },
+            isp,
+          } = data;
+          setDetailsData({
+            ...initialDetailsData,
+            ipAddress: ipAddress,
+            isp,
+            region,
+          });
+          setNewCoords([lat, lng]);
         }
-      );
+      });
     }
   };
 
