@@ -17,20 +17,20 @@ const AddressDetails: React.FC<DetailsProps> = ({
   const { ipAddress, region, timezone, isp } = detailsData;
   return (
     <AddressDetailsContainer>
-      <div>
-        <span>IP ADDRESS</span>
+      <div className="details-chunk">
+        <span className="details-chunk-title">IP ADDRESS</span>
         {ipAddress}
       </div>
-      <div>
-        <span>LOCATION</span>
+      <div className="details-chunk">
+        <span className="details-chunk-title">LOCATION</span>
         {region}
       </div>
-      <div>
-        <span>TIMEZONE</span>
+      <div className="details-chunk">
+        <span className="details-chunk-title">TIMEZONE</span>
         {timezone}
       </div>
-      <div>
-        <span>ISP</span>
+      <div className="details-chunk">
+        <span className="details-chunk-title">ISP</span>
         {isp}
       </div>
     </AddressDetailsContainer>
@@ -56,7 +56,7 @@ const AddressDetailsContainer = styled.div`
     flex-direction: column;
     height: auto;
   `}
-  div {
+  .details-chunk {
     display: flex;
     flex-direction: column;
     border-left: 1px solid #75757540;
@@ -74,7 +74,7 @@ const AddressDetailsContainer = styled.div`
       width: 250px;
       align-items: center;
   `}
-    span {
+    .details-chunk-title {
       font-size: 0.7em;
       padding-bottom: 10px;
       color: #757575;

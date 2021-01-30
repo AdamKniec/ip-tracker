@@ -26,12 +26,12 @@ const Header: React.FC<headerProps> = ({
   initialDetailsData,
 }) => {
   const [inputValue, setInputValue] = useState("");
-  const [detailsData, setDetailsData] = useState<{
-    ipAddress: string;
-    region: string;
-    timezone: string;
-    isp: string;
-  }>({ ipAddress: "", region: "", timezone: "", isp: "" });
+  const [detailsData, setDetailsData] = useState<typeof initialDetailsData>({
+    ipAddress: "",
+    region: "",
+    timezone: "",
+    isp: "",
+  });
   const [showErrorFlag, setShowErrorFlag] = useState(false);
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const Header: React.FC<headerProps> = ({
     const trimmedValue = trimTheEmptySpaces(inputValue);
     if (isIP(inputValue)) {
       getTheDataBasedOnTheIpAddress(trimmedValue).then(
-        ({ location: { region, lat, lng }, ip: ipAddress, isp, messages }) => {
+        ({ location: { region, lat, lng }, ip: ipAddress, isp }) => {
           setDetailsData({
             ...initialDetailsData,
             ipAddress,
@@ -143,8 +143,8 @@ const Input = styled.input`
   padding-left: 20px;
   font-size: 1.2rem;
   ${respondTo.sm`
-  font-size: 10px;
-  height: 40px;
+    font-size: 10px;
+    height: 40px;
 `}
 `;
 
@@ -161,8 +161,8 @@ const Button = styled.button`
     color: #fff;
   }
   ${respondTo.sm`
-  width: 40px;
-  height: 40px;
+    width: 40px;
+    height: 40px;
 `}
 `;
 
@@ -175,7 +175,7 @@ const Form = styled.form`
 const Label = styled.label`
   width: 500px;
   ${respondTo.sm`
-  min-width: 200px;
-  width: auto
+    min-width: 200px;
+   width: auto
 `}
 `;
